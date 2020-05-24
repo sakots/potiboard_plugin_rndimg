@@ -18,7 +18,7 @@ POTI-boardの画像保存フォルダからランダムに画像を表示しま�
 ## 使い方
 
 - 画像と同じようにこのphpのファイルをimgタグで呼び出します。
-  - HTMLファイルに `<img src="https://hoge.ne.jp/bbs/newimg.php" alt="" width="300">` のように書きます。
+  - HTMLファイルに `<img src="https://hoge.ne.jp/bbs/rndimg.php" alt="" width="300">` のように書きます。
 - 画像が無い時にデフォルト画像を表示させる事もできます。
 
 ## 履歴

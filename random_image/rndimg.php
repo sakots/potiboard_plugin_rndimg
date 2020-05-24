@@ -1,6 +1,6 @@
 <?php
 // POTI-boardの投稿画像をランダムで呼び出すphp
-// rndimg.php(c)さこつ 2020 lot.200524
+// rndimg.php(c)さこつ 2020 lot.200524a
 // https://poti-k.info/
 //フリーウェアですが著作権は放棄しません。
 // さとぴあさん https://pbbs.sakura.ne.jp/ のnewimg.phpを参考に作りました。
@@ -18,7 +18,11 @@
 
 //---------------- 設定 ----------------
 
-// 画像がない時に表示する画像を指定
+//画像をチェックするログの行数
+
+$depth = '200';
+
+// その行数探しても画像がない時に表示する画像を指定
 $default='';
 //例
 // $default='https://hoge.ne.jp/image.png';
@@ -28,12 +32,34 @@ $default='';
 
 //--------- 説明と設定ここまで ---------
 
-include(__DIR__.'/config.php');//config.phpの設定を読み込む
+include(__DIR__.'/config.php'); //config.phpの設定を読み込む
 
-$img = glob(__DIR__.'/'.IMG_DIR.'*.{png,jpg,jpeg,gif}', GLOB_BRACE);
-shuffle($img);
+$fp = fopen(LOGFILE, "r"); //ログを開く
+	$img = [];
+	$i=0;
+	while ($line = fgets($fp ,4096)) {
+		list(,,,,,,,,,$ext,,,$time,) = explode(",", $line);
+		if ($ext&&is_file(IMG_DIR.$time.$ext)){
+			if(is_file(THUMB_DIR.$time.'s.jpg')){ //サムネイルはあるか?
+				$img[$i]=THUMB_DIR.$time.'s.jpg';
+			}
+			else{//サムネイルが無かったら
+				$img[$i]=IMG_DIR.$time.$ext;
+			}
+		}
+		if($i>=$depth){break;} //$depthのぶん発言チェックして終了
+		++$i;
+	
+	}
+	fclose($fp); //ログを閉じる
+	if(empty($img)){ //画像が無かったら
+		$img=$default; //デフォルト画像を表示
+	}
 
 //画像を出力
+
+shuffle($img); //シャッフル
+
 $img_type=mime_content_type($img[0]);
 
 switch ($img_type):

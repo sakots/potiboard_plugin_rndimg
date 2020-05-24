@@ -9,7 +9,7 @@
 ## 設置方法
 
 1. [POTI改公式サイト](https://poti-k.info/)からPOTI-boardをダウンロードして設置します。
-2. rnd.phpを potiboard.phpと同じディレクトリにアップロードします。
+2. rndimg.phpを potiboard.phpと同じディレクトリにアップロードします。
 
 ## 特徴
 
